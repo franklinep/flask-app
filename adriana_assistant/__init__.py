@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask import flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -13,14 +14,22 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    flash("Por favor, inicia sesión para acceder a esta página.", "info")
+    return redirect(url_for('login'))
+
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
-app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'adriana.bot314@gmail.com'
+app.config['MAIL_PASSWORD'] = 'adrianabot123'
+# app.config['MAIL_DEFAULT_SENDER'] = 'adriana.bot314@gmail.com'
 mail = Mail(app)
 
 from adriana_assistant import routes
-from adriana_assistant.chatbot import chatbot_bp
+# from adriana_assistant.chatbot import chatbot_bp
 
-app.register_blueprint(chatbot_bp)
+# app.register_blueprint(chatbot_bp)
