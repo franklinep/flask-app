@@ -10,7 +10,7 @@ chatbot_bp = Blueprint('chatbot', __name__)
 
 @chatbot_bp.route('/chatbot', methods=['GET', 'POST'])
 def chatbot():
-    groq_api_key = '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'
+    groq_api_key = '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'
 
     if not groq_api_key:
         return "API Key is not configured correctly."
@@ -43,7 +43,7 @@ def chatbot():
             memory_context.append(AIMessage(content=message['AI']))
 
         groq_chat = ChatGroq(
-            groq_api_key=groq_api_key, 
+            groq_api_key=groq_api_key,
             model_name=model
         )
 
